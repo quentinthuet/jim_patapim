@@ -1,6 +1,6 @@
 [gd_scene load_steps=7 format=3 uid="uid://gelvwryyivp6"]
 
-[ext_resource type="Script" path="res://Scripts/character.gd" id="1_q1xks"]
+[ext_resource type="Script" uid="uid://c78glhekac8iv" path="res://Scripts/character.gd" id="1_q1xks"]
 [ext_resource type="Texture2D" uid="uid://2gi2nxem4t8r" path="res://Assets/Jim/Patapim_marche-2.png" id="2_yns0n"]
 [ext_resource type="Texture2D" uid="uid://dvs6acbi5qxrs" path="res://Assets/Jim/Patapim_marche-1.png" id="3_xa4jp"]
 [ext_resource type="Texture2D" uid="uid://3qbodoxk5xxn" path="res://Assets/Jim/Patapim_marche-3.png" id="4_veshn"]
