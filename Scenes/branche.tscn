@@ -1,0 +1,27 @@
+[gd_scene load_steps=5 format=3 uid="uid://3g5jbd2ttgt8"]
+
+[ext_resource type="PackedScene" uid="uid://bdvfte6tfgxrj" path="res://Scenes/obstacle.tscn" id="1_typur"]
+
+[sub_resource type="Gradient" id="Gradient_l7c68"]
+offsets = PackedFloat32Array(0.567742)
+colors = PackedColorArray(0.462058, 0.311704, 0.150684, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_i65oc"]
+gradient = SubResource("Gradient_l7c68")
+width = 25
+height = 25
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_2m73t"]
+size = Vector2(25, 25)
+
+[node name="Branche" instance=ExtResource("1_typur")]
+height = 200
+shout_name = "BRANCHE"
+
+[node name="Sprite2D" parent="." index="0"]
+position = Vector2(12.5, 12.5)
+texture = SubResource("GradientTexture2D_i65oc")
+
+[node name="CollisionShape2D" parent="." index="1"]
+position = Vector2(12.5, 12.5)
+shape = SubResource("RectangleShape2D_2m73t")

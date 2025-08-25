@@ -1,0 +1,45 @@
+[gd_scene load_steps=7 format=3 uid="uid://gelvwryyivp6"]
+
+[ext_resource type="Script" path="res://Scripts/character.gd" id="1_q1xks"]
+[ext_resource type="Texture2D" uid="uid://2gi2nxem4t8r" path="res://Assets/Jim/Patapim_marche-2.png" id="2_yns0n"]
+[ext_resource type="Texture2D" uid="uid://dvs6acbi5qxrs" path="res://Assets/Jim/Patapim_marche-1.png" id="3_xa4jp"]
+[ext_resource type="Texture2D" uid="uid://3qbodoxk5xxn" path="res://Assets/Jim/Patapim_marche-3.png" id="4_veshn"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_jqfm7"]
+size = Vector2(17, 73)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_im8ee"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_yns0n")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_xa4jp")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_veshn")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_xa4jp")
+}],
+"loop": true,
+"name": &"run",
+"speed": 3.0
+}]
+
+[node name="Character" type="CharacterBody2D"]
+z_index = 1
+script = ExtResource("1_q1xks")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(25.5, 36.5)
+shape = SubResource("RectangleShape2D_jqfm7")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(27, 34)
+scale = Vector2(0.065, 0.065)
+sprite_frames = SubResource("SpriteFrames_im8ee")
+animation = &"run"
+autoplay = "run"
+frame_progress = 0.529299

@@ -1,0 +1,24 @@
+[gd_scene load_steps=5 format=3 uid="uid://likmtnrjs3t1"]
+
+[ext_resource type="PackedScene" uid="uid://bdvfte6tfgxrj" path="res://Scenes/obstacle.tscn" id="1_v423c"]
+
+[sub_resource type="Gradient" id="Gradient_y4i7e"]
+offsets = PackedFloat32Array(0.516129)
+colors = PackedColorArray(0.721435, 0.290871, 0.202138, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_whoe5"]
+gradient = SubResource("Gradient_y4i7e")
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_cyim1"]
+size = Vector2(64, 64)
+
+[node name="Taupe" instance=ExtResource("1_v423c")]
+shout_name = "TAUPE"
+
+[node name="Sprite2D" parent="." index="0"]
+position = Vector2(32, 32)
+texture = SubResource("GradientTexture2D_whoe5")
+
+[node name="CollisionShape2D" parent="." index="1"]
+position = Vector2(32, 32)
+shape = SubResource("RectangleShape2D_cyim1")

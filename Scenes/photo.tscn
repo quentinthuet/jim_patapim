@@ -1,0 +1,27 @@
+[gd_scene load_steps=5 format=3 uid="uid://denuf60vqo6fw"]
+
+[ext_resource type="PackedScene" uid="uid://1fdpsm346atn" path="res://Scenes/trigger_zone.tscn" id="1_tb6d8"]
+
+[sub_resource type="Gradient" id="Gradient_3ntx2"]
+offsets = PackedFloat32Array(0.574194)
+colors = PackedColorArray(0.303671, 0.37492, 0.949468, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_k654b"]
+gradient = SubResource("Gradient_3ntx2")
+width = 154
+height = 240
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_75mrp"]
+size = Vector2(154, 240)
+
+[node name="Photo" instance=ExtResource("1_tb6d8")]
+height = 120
+shout_name = "PHOTO"
+
+[node name="Sprite2D" parent="." index="0"]
+position = Vector2(77, 120)
+texture = SubResource("GradientTexture2D_k654b")
+
+[node name="CollisionShape2D" parent="." index="1"]
+position = Vector2(77, 120)
+shape = SubResource("RectangleShape2D_75mrp")

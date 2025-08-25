@@ -1,0 +1,22 @@
+[gd_scene format=3 uid="uid://bp7k717gtopay"]
+
+[node name="HUD" type="CanvasLayer"]
+
+[node name="ScoreLabel" type="Label" parent="."]
+offset_right = 103.0
+offset_bottom = 48.0
+size_flags_horizontal = 0
+size_flags_vertical = 0
+theme_override_font_sizes/font_size = 32
+
+[node name="Shouting" type="Label" parent="."]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -45.5
+offset_top = 117.0
+offset_right = 45.5
+offset_bottom = 174.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 39
+text = "GO !!"

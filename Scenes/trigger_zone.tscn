@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://1fdpsm346atn"]
+
+[ext_resource type="Script" path="res://Scenes/trigger_zone.gd" id="1_ajl5t"]
+
+[node name="TriggerZone" type="Area2D"]
+script = ExtResource("1_ajl5t")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
