@@ -12,7 +12,7 @@ var panneaux_tuto_positions := [2000, 3000, 4000, 5000, 7000, 9000, 11000]
 
 const JIM_START_POS := Vector2i(498, 330)
 const CAM_START_POS := Vector2i(576, 324)
-const START_SPEED : float = 4
+const START_SPEED : float = 6
 const SPEED_INCREASE_FACTOR = 0.2
 const MAX_SPEED : float = 20
 
@@ -21,6 +21,9 @@ var speed : float
 var ground_height : int
 var last_obs
 var score : int
+
+var show_tutorial : bool = false
+var real_start_position : int
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -37,28 +40,30 @@ func new_game():
     $Camera2D.position = CAM_START_POS
     $Ground.position = Vector2i(0, 548)
 
+    real_start_position = 12000 if show_tutorial else 0
     
     for obs in obstacles:
         obs.queue_free()
     obstacles.clear()
     
-    for i_panneau in range(len(panneaux_tuto_positions)):
-        var new_panneau_scene := preload("res://scenes/panneau.tscn")
-        var new_panneau := new_panneau_scene.instantiate()
-        new_panneau.texture = load("res://Assets/panneaux_tuto/" + panneaux_tuto_textures[i_panneau] + ".png")
-        new_panneau.position.x = panneaux_tuto_positions[i_panneau]
-        new_panneau.position.y = screen_size.y - ground_height - new_panneau.texture.get_height()/2
-        add_child(new_panneau)
+    if show_tutorial:
+        for i_panneau in range(len(panneaux_tuto_positions)):
+            var new_panneau_scene := preload("res://scenes/panneau.tscn")
+            var new_panneau := new_panneau_scene.instantiate()
+            new_panneau.texture = load("res://Assets/panneaux_tuto/" + panneaux_tuto_textures[i_panneau] + ".png")
+            new_panneau.position.x = panneaux_tuto_positions[i_panneau]
+            new_panneau.position.y = screen_size.y - ground_height - new_panneau.texture.get_height()/2
+            add_child(new_panneau)
     
-    var obs_pos = 6000
-    for obs_init in obstacle_types:
-        var cur_obs = obs_init.instantiate()
-        var obs_height = cur_obs.get_node("Sprite2D").texture.get_height()
-        var obs_scale = cur_obs.get_node("Sprite2D").scale
-        obs_height = screen_size.y - ground_height - (obs_height * obs_scale.y / 2) - cur_obs.height
-        add_obs(cur_obs, obs_pos, obs_height)
-        last_obs = cur_obs
-        obs_pos += 2000
+        var obs_pos = 6000
+        for obs_init in obstacle_types:
+            var cur_obs = obs_init.instantiate()
+            var obs_height = cur_obs.get_node("Sprite2D").texture.get_height()
+            var obs_scale = cur_obs.get_node("Sprite2D").scale
+            obs_height = screen_size.y - ground_height - (obs_height * obs_scale.y / 2) - cur_obs.height
+            add_obs(cur_obs, obs_pos, obs_height)
+            last_obs = cur_obs
+            obs_pos += 2000
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
@@ -67,7 +72,7 @@ func _process(delta):
     speed = min(START_SPEED + (score*SPEED_INCREASE_FACTOR), MAX_SPEED)
     $Camera2D.position.x += speed
     
-    if $Character.position.x > 12000:
+    if $Character.position.x > real_start_position:
         
         if score >= 0:
             $HUD/ScoreLabel.text = "SCORE: " + str(score)
@@ -84,7 +89,7 @@ func _process(delta):
         if $Character.position.x > obs.position.x - 150 and $Character.position.x < obs.position.x + 50:
             $HUD/Shouting.text = obs.shout_name
             in_an_obs = true
-        elif $Character.position.x > 12000 and $Character.position.x < 12500:
+        elif $Character.position.x > real_start_position and $Character.position.x < real_start_position + 1000:
             $HUD/Shouting.text = "GO!!"
         elif not in_an_obs:
             $HUD/Shouting.text = ""

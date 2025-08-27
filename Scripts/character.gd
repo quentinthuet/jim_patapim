@@ -14,15 +14,20 @@ func _physics_process(delta):
         velocity.y += gravity * delta
 
     # Handle Jump.
-    if Input.is_action_just_pressed("ui_accept") and is_on_floor():
-        velocity.y = JUMP_VELOCITY
-
-    # Get the input direction and handle the movement/deceleration.
-    # As good practice, you should replace UI actions with custom gameplay actions.
-    var direction = Input.get_axis("ui_left", "ui_right")
-    if direction:
-        velocity.x = direction * SPEED
+    
+    if Input.is_action_pressed("ui_down"):
+        $CrouchCollisionShape2D.disabled = false
+        $VerticalCollisionShape2D.disabled = true
+        $AnimatedSprite2D.animation = "crouch"
     else:
-        velocity.x = move_toward(velocity.x, 0, SPEED)
+        $CrouchCollisionShape2D.disabled = true
+        $VerticalCollisionShape2D.disabled = false
+        if (Input.is_action_just_pressed("ui_accept") or Input.is_action_just_pressed("ui_up")) and is_on_floor():
+            $AnimatedSprite2D.animation = "jump"
+            velocity.y = JUMP_VELOCITY
+        elif Input.is_action_pressed("ui_left"):
+            $AnimatedSprite2D.animation = "pose"
+        elif is_on_floor():
+            $AnimatedSprite2D.animation = "run"
 
     move_and_slide()
