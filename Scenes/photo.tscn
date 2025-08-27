@@ -1,27 +1,27 @@
-[gd_scene load_steps=5 format=3 uid="uid://denuf60vqo6fw"]
+[gd_scene load_steps=5 format=3 uid="uid://da1dpkjisntq8"]
 
-[ext_resource type="PackedScene" uid="uid://1fdpsm346atn" path="res://Scenes/trigger_zone.tscn" id="1_tb6d8"]
+[ext_resource type="Script" uid="uid://ced0op175iso3" path="res://Scripts/obstacle.gd" id="1_q2i1c"]
 
-[sub_resource type="Gradient" id="Gradient_3ntx2"]
+[sub_resource type="Gradient" id="Gradient_q2i1c"]
 offsets = PackedFloat32Array(0.574194)
 colors = PackedColorArray(0.303671, 0.37492, 0.949468, 1)
 
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_k654b"]
-gradient = SubResource("Gradient_3ntx2")
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_gd2ei"]
+gradient = SubResource("Gradient_q2i1c")
 width = 154
 height = 240
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_75mrp"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_rfyfl"]
 size = Vector2(154, 240)
 
-[node name="Photo" instance=ExtResource("1_tb6d8")]
-height = 120
-shout_name = "PHOTO"
+[node name="Photo" type="Area2D"]
+script = ExtResource("1_q2i1c")
+metadata/_custom_type_script = "uid://ced0op175iso3"
 
-[node name="Sprite2D" parent="." index="0"]
+[node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(77, 120)
-texture = SubResource("GradientTexture2D_k654b")
+texture = SubResource("GradientTexture2D_gd2ei")
 
-[node name="CollisionShape2D" parent="." index="1"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(77, 120)
-shape = SubResource("RectangleShape2D_75mrp")
+shape = SubResource("RectangleShape2D_rfyfl")

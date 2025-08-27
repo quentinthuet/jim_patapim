@@ -1,24 +1,25 @@
-[gd_scene load_steps=5 format=3 uid="uid://likmtnrjs3t1"]
+[gd_scene load_steps=5 format=3 uid="uid://ctvv113cypmrf"]
 
-[ext_resource type="PackedScene" uid="uid://bdvfte6tfgxrj" path="res://Scenes/obstacle.tscn" id="1_v423c"]
+[ext_resource type="Script" uid="uid://ced0op175iso3" path="res://Scripts/obstacle.gd" id="1_0fmsh"]
 
 [sub_resource type="Gradient" id="Gradient_y4i7e"]
 offsets = PackedFloat32Array(0.516129)
 colors = PackedColorArray(0.721435, 0.290871, 0.202138, 1)
 
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_whoe5"]
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_fg6ht"]
 gradient = SubResource("Gradient_y4i7e")
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_cyim1"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_7cknw"]
 size = Vector2(64, 64)
 
-[node name="Taupe" instance=ExtResource("1_v423c")]
-shout_name = "TAUPE"
+[node name="Taupe" type="Area2D"]
+script = ExtResource("1_0fmsh")
+metadata/_custom_type_script = "uid://ced0op175iso3"
 
-[node name="Sprite2D" parent="." index="0"]
+[node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(32, 32)
-texture = SubResource("GradientTexture2D_whoe5")
+texture = SubResource("GradientTexture2D_fg6ht")
 
-[node name="CollisionShape2D" parent="." index="1"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(32, 32)
-shape = SubResource("RectangleShape2D_cyim1")
+shape = SubResource("RectangleShape2D_7cknw")

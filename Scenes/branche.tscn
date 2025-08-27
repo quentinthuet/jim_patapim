@@ -1,27 +1,27 @@
-[gd_scene load_steps=5 format=3 uid="uid://3g5jbd2ttgt8"]
+[gd_scene load_steps=5 format=3 uid="uid://ba16bexslj41u"]
 
-[ext_resource type="PackedScene" uid="uid://bdvfte6tfgxrj" path="res://Scenes/obstacle.tscn" id="1_typur"]
+[ext_resource type="Script" uid="uid://ced0op175iso3" path="res://Scripts/obstacle.gd" id="1_oh04d"]
 
 [sub_resource type="Gradient" id="Gradient_l7c68"]
 offsets = PackedFloat32Array(0.567742)
 colors = PackedColorArray(0.462058, 0.311704, 0.150684, 1)
 
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_i65oc"]
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_j4gfo"]
 gradient = SubResource("Gradient_l7c68")
 width = 25
 height = 25
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_2m73t"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_dxrue"]
 size = Vector2(25, 25)
 
-[node name="Branche" instance=ExtResource("1_typur")]
-height = 200
-shout_name = "BRANCHE"
+[node name="Branche" type="Area2D"]
+script = ExtResource("1_oh04d")
+metadata/_custom_type_script = "uid://ced0op175iso3"
 
-[node name="Sprite2D" parent="." index="0"]
+[node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(12.5, 12.5)
-texture = SubResource("GradientTexture2D_i65oc")
+texture = SubResource("GradientTexture2D_j4gfo")
 
-[node name="CollisionShape2D" parent="." index="1"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(12.5, 12.5)
-shape = SubResource("RectangleShape2D_2m73t")
+shape = SubResource("RectangleShape2D_dxrue")
