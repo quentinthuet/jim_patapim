@@ -4,10 +4,10 @@ var taupe_scene = preload("res://scenes/taupe.tscn")
 var branche_scene = preload("res://scenes/branche.tscn")
 var photo_scene = preload("res://scenes/photo.tscn")
 
-var obstacle_types := [taupe_scene, branche_scene, photo_scene]
+var obstacles_types := [taupe_scene, branche_scene, photo_scene]
 var obstacles : Array
 
-var panneaux_tuto_textures := ["welcome_1", "welcome_2", "welcome_3", "moles", "branches", "picture", "good_luck"]
+var panneaux_tuto_names := ["welcome_1", "welcome_2", "welcome_3", "moles", "branches", "picture", "good_luck"]
 var panneaux_tuto_positions := [2000, 3000, 4000, 5000, 7000, 9000, 11000]
 
 const JIM_START_POS := Vector2i(498, 330)
@@ -28,7 +28,7 @@ var real_start_position : int
 # Called when the node enters the scene tree for the first time.
 func _ready():
     screen_size = get_window().size
-    ground_height = $Ground.get_node("Sprite2D").texture.get_height()
+    ground_height = screen_size.y - $Ground.get_node("Sprite2D").texture.get_height()
     new_game()
 
 func new_game():
@@ -48,21 +48,16 @@ func new_game():
     
     if show_tutorial:
         for i_panneau in range(len(panneaux_tuto_positions)):
-            var new_panneau_scene := preload("res://scenes/panneau.tscn")
-            var new_panneau := new_panneau_scene.instantiate()
-            new_panneau.texture = load("res://Assets/panneaux_tuto/" + panneaux_tuto_textures[i_panneau] + ".png")
-            new_panneau.position.x = panneaux_tuto_positions[i_panneau]
-            new_panneau.position.y = screen_size.y - ground_height - new_panneau.texture.get_height()/2
-            add_child(new_panneau)
+            add_child(Panneau.spawn_panneau(
+                panneaux_tuto_names[i_panneau],
+                panneaux_tuto_positions[i_panneau],
+                ground_height
+            ))
     
         var obs_pos = 6000
-        for obs_init in obstacle_types:
+        for obs_init in obstacles_types:
             var cur_obs = obs_init.instantiate()
-            var obs_height = cur_obs.get_node("Sprite2D").texture.get_height()
-            var obs_scale = cur_obs.get_node("Sprite2D").scale
-            obs_height = screen_size.y - ground_height - (obs_height * obs_scale.y / 2) - cur_obs.height
-            add_obs(cur_obs, obs_pos, obs_height)
-            last_obs = cur_obs
+            add_obs(cur_obs, obs_pos)
             obs_pos += 2000
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -72,11 +67,9 @@ func _process(delta):
     speed = min(START_SPEED + (score*SPEED_INCREASE_FACTOR), MAX_SPEED)
     $Camera2D.position.x += speed
     
-    if $Character.position.x > real_start_position:
-        
+    if $Character.position.x > real_start_position:    
         if score >= 0:
             $HUD/ScoreLabel.text = "SCORE: " + str(score)
-    
         generate_obs()
     
     if $Camera2D.position.x - $Ground.position.x > screen_size.x * 1.5:
@@ -95,26 +88,23 @@ func _process(delta):
             $HUD/Shouting.text = ""
 
 func generate_obs():
-
     #generate ground obstacles
     if obstacles.is_empty() or last_obs.position.x < $Character.position.x:
         if not obstacles.is_empty():
             score += 1
             print(speed)
         var dist_char = randi_range(-50, 400)
-        var obs_type = obstacle_types[randi() % obstacle_types.size()]
+        var obs_type = obstacles_types[randi() % obstacles_types.size()]
         var obs
         obs = obs_type.instantiate()
-        var obs_height = obs.get_node("Sprite2D").texture.get_height()
-        var obs_scale = obs.get_node("Sprite2D").scale
-        var obs_x : int = screen_size.x + $Character.position.x + dist_char
-        var obs_y : int = screen_size.y - ground_height - (obs_height * obs_scale.y / 2) - obs.height
-        last_obs = obs
-        add_obs(obs, obs_x, obs_y)
+        add_obs(obs, screen_size.x + $Character.position.x + dist_char)
 
-func add_obs(obs, x, y):
-    obs.position = Vector2i(x, y)
-#    obs.body_entered.connect(hit_obs)
+func add_obs(obs, obs_x):
+    var obs_height = obs.get_node("Sprite2D").texture.get_height()
+    var obs_scale = obs.get_node("Sprite2D").scale
+    var obs_y : int = ground_height - (obs_height * obs_scale.y / 2) - obs.height
+    last_obs = obs
+    obs.position = Vector2i(obs_x, obs_y)
     add_child(obs)
     obstacles.append(obs)
 
