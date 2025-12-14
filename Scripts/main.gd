@@ -21,6 +21,8 @@ var speed : float
 var ground_height : int
 var last_obs
 var score : int
+var game_is_over : bool
+var can_restart : bool
 
 var show_tutorial : bool = false
 var real_start_position : int
@@ -29,11 +31,17 @@ var real_start_position : int
 func _ready():
     screen_size = get_window().size
     ground_height = screen_size.y - $Ground.get_node("Sprite2D").texture.get_height()
+    $Character.hit.connect(game_over)
     new_game()
 
 func new_game():
     
     score = 0
+    
+    game_is_over = false
+    can_restart = false
+    
+    $Character.set_physics_process(true)
     
     $Character.position = JIM_START_POS
     $Character.velocity = Vector2i(0, 0)
@@ -62,6 +70,14 @@ func new_game():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
+    
+    if can_restart:
+        if Input.is_action_just_pressed("ui_accept"):
+            new_game()
+        return
+    
+    if game_is_over:
+        return
         
     $Character.position.x += speed
     speed = min(START_SPEED + (score*SPEED_INCREASE_FACTOR), MAX_SPEED)
@@ -74,6 +90,7 @@ func _process(delta):
     
     if $Camera2D.position.x - $Ground.position.x > screen_size.x * 1.5:
         $Ground.position.x += screen_size.x
+    
 
     var in_an_obs = false
     for obs in obstacles:
@@ -111,3 +128,14 @@ func add_obs(obs, obs_x):
 func remove_obs(obs):
     obs.queue_free()
     obstacles.erase(obs)
+
+func game_over():
+    game_is_over = true
+    print("GAME OVER")
+    $HUD/Shouting.text = "PERDU !"
+    $Character.set_physics_process(false)
+    # Petit timer avant de pouvoir relancer (optionnel)
+    await get_tree().create_timer(2.0).timeout
+    
+    $HUD/Shouting.text = "PRESS ENTER TO RESTART"
+    can_restart = true

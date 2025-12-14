@@ -18,6 +18,7 @@ size = Vector2(154, 240)
 script = ExtResource("1_q2i1c")
 height = 120
 shout_name = "PHOTO!"
+is_a_trigger_zone = true
 metadata/_custom_type_script = "uid://ced0op175iso3"
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
